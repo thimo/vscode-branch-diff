@@ -43,7 +43,7 @@ blind. A contributed file-overview tree is the candidate fix, not yet built.
 
 Pure JS — no build. Press <kbd>F5</kbd> ("Run Extension") to launch an
 Extension Development Host with the extension loaded; edit `extension.js`
-and reload the dev host to iterate. See [RELEASING.md](RELEASING.md) for
+and reload the dev host to iterate. See `RELEASING.md` in the repo for
 packaging.
 
 ## License
