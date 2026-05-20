@@ -21,12 +21,71 @@
 	"scripts": {
 		"package": "vsce package --allow-missing-repository --no-dependencies"
 	},
+	"devDependencies": {
+		"@types/vscode": "^1.80.0"
+	},
 	"contributes": {
 		"commands": [
 			{
 				"command": "branchDiff.open",
 				"title": "Branch Diff…",
 				"icon": "$(git-compare)"
+			},
+			{
+				"command": "branchDiff.changeBase",
+				"title": "Change Base…",
+				"icon": "$(git-compare)"
+			},
+			{
+				"command": "branchDiff.refresh",
+				"title": "Refresh Branch Diff",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "branchDiff.setListView",
+				"title": "View as List",
+				"icon": "$(list-flat)"
+			},
+			{
+				"command": "branchDiff.setTreeView",
+				"title": "View as Tree",
+				"icon": "$(list-tree)"
+			}
+		],
+		"configuration": {
+			"title": "Branch Diff",
+			"properties": {
+				"branchDiff.viewMode": {
+					"type": "string",
+					"enum": ["tree", "list"],
+					"enumDescriptions": [
+						"Hierarchical folder tree with collapsible directories.",
+						"Flat list of files, one row per change."
+					],
+					"default": "tree",
+					"description": "How the Branch Diff view renders the changed-file list."
+				},
+				"branchDiff.compactFolders": {
+					"type": "boolean",
+					"default": true,
+					"description": "In tree mode, collapse chains of folders that contain a single subfolder into one row (e.g. \"a/b/c\")."
+				}
+			}
+		},
+		"views": {
+			"scm": [
+				{
+					"id": "branchDiff.files",
+					"name": "Branch Diff",
+					"contextualTitle": "Branch Diff"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "branchDiff.files",
+				"contents": "No comparison active.\n[Run Branch Diff…](command:branchDiff.open)",
+				"when": "gitOpenRepositoryCount != 0"
 			}
 		],
 		"menus": {
@@ -34,6 +93,44 @@
 				{
 					"command": "branchDiff.open",
 					"when": "gitOpenRepositoryCount != 0"
+				},
+				{
+					"command": "branchDiff.changeBase",
+					"when": "false"
+				},
+				{
+					"command": "branchDiff.refresh",
+					"when": "false"
+				},
+				{
+					"command": "branchDiff.setListView",
+					"when": "false"
+				},
+				{
+					"command": "branchDiff.setTreeView",
+					"when": "false"
+				}
+			],
+			"view/title": [
+				{
+					"command": "branchDiff.setListView",
+					"when": "view == branchDiff.files && config.branchDiff.viewMode == 'tree'",
+					"group": "navigation@0"
+				},
+				{
+					"command": "branchDiff.setTreeView",
+					"when": "view == branchDiff.files && config.branchDiff.viewMode == 'list'",
+					"group": "navigation@0"
+				},
+				{
+					"command": "branchDiff.changeBase",
+					"when": "view == branchDiff.files",
+					"group": "navigation@1"
+				},
+				{
+					"command": "branchDiff.refresh",
+					"when": "view == branchDiff.files",
+					"group": "navigation@2"
 				}
 			]
 		}
