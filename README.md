@@ -1,5 +1,7 @@
 # Branch Diff
 
+[![Release](https://img.shields.io/github/v/release/thimo/vscode-branch-diff?label=release)](https://github.com/thimo/vscode-branch-diff/releases) [![VS Code Marketplace](https://img.shields.io/badge/marketplace-install-blue)](https://marketplace.visualstudio.com/items?itemName=thimo.branchdiff)
+
 The GitHub **"Files changed"** tab, locally. All changes between the
 current branch (HEAD) and another branch — or an earlier commit on the
 current branch — stacked in VS Code's native multi-file diff editor,
