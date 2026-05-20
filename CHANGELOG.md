@@ -2,7 +2,7 @@
 
 All notable changes to the Branch Diff extension.
 
-## Unreleased
+## [0.2.0] — 2026-05-20
 
 First Marketplace release. Since 0.1.0 the extension grew the PR-style
 file-list sidebar it was always meant to have, plus the surrounding polish

@@ -2,7 +2,7 @@
 	"name": "branchdiff",
 	"displayName": "Branch (or commit) Diff",
 	"description": "All changes between the current branch and another branch or commit, stacked in VS Code's native multi-file diff editor.",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"publisher": "thimo",
 	"private": false,
 	"license": "MIT",
