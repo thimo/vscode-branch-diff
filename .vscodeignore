@@ -10,3 +10,5 @@ node_modules/**
 jsconfig.json
 package-lock.json
 git.d.ts
+media/*.svg
+scripts/**

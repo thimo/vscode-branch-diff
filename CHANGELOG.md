@@ -2,10 +2,33 @@
 
 All notable changes to the Branch Diff extension.
 
-## [Unreleased]
+## Unreleased
 
-Split out into its own repository. Project scaffolding added (LICENSE,
-README, this changelog, RELEASING, F5 launch config).
+First Marketplace release. Since 0.1.0 the extension grew the PR-style
+file-list sidebar it was always meant to have, plus the surrounding polish
+needed to ship publicly.
+
+- **Files-overview view in the Source Control container.** A contributed
+  `scm` view ("Branch Diff") renders the changed-file list next to the
+  built-in CHANGES view, with tree/list toggle, click-to-reveal inside the
+  open multi-diff editor, per-file `+x −y` line counts, theme-aware status
+  badges, and a header description like `main ↔ develop · 66 files`.
+- **Tree/list mode persisted in settings** (`branchDiff.viewMode`), plus
+  compact-folder collapsing (`branchDiff.compactFolders`) — same two knobs
+  as the built-in SCM CHANGES view, mirrored under our namespace.
+- **Click-to-reveal inside the open multi-diff editor.** Falls back to a
+  standalone diff if the internal `_workbench.openMultiDiffEditor` command
+  is unavailable, so a row click is never broken.
+- **`+x −y` counts come from `repo.diffBetweenWithStats`** when available
+  (feature-detected — newer than the `^1.80.0` engines floor); falls back
+  to `diffBetween` (no counts) on older hosts. No `git --numstat`
+  child_process.
+- **Extension icon** (side-by-side diff panes on a pink/purple gradient)
+  + Marketplace metadata (`license`, `repository`, `bugs`, `homepage`,
+  `keywords`).
+- **Release automation.** `npm run release -- X.Y.Z` runs pre-flight
+  (clean tree, parse-check, icon PNG in sync with SVG), bump, tag,
+  package, smoke-test pause, marketplace publish, push, GitHub release.
 
 ## [0.1.0] — 2026-05-19
 
