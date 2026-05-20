@@ -1,50 +1,74 @@
 # Branch Diff
 
-The GitHub **"Files changed"** tab, locally. All changes between the current
-branch (HEAD) and another branch — or an earlier commit on the current
-branch — stacked in VS Code's native multi-file diff editor. No GitHub, no
-two-pane file-by-file tool, no leaving the editor.
+The GitHub **"Files changed"** tab, locally. All changes between the
+current branch (HEAD) and another branch — or an earlier commit on the
+current branch — stacked in VS Code's native multi-file diff editor,
+with a PR-style sidebar of changed files. No GitHub, no leaving the
+editor.
 
 ## What it does
 
 - **Command Palette: _Branch Diff…_** → one picker listing every other
-  branch (local + remote) and the last 40 commits on the current branch.
-- Pick a branch or commit → `git diff <picked>..HEAD` opens stacked in the
-  native multi-diff editor: every changed file in one scrollable view, with
-  syntax highlighting, rename detection, native theme, and live refresh as
-  files change (ideal for watching agent edits land).
-- Added / deleted / renamed files are handled via the git `Status` enum;
-  refs are resolved to commit SHAs so `toGitUri` resolves reliably; the
-  absent side of an add/delete is `undefined` (API-supported) rather than a
-  ref where the file doesn't exist.
+  branch (local + remote) and the last 40 commits on the current
+  branch.
+- **Pick a branch** → diffs HEAD against that branch tip
+  (`branch..HEAD`, "what I've added on top").
+- **Pick a commit** → diffs from that commit onwards, **inclusive of
+  its own changes**, up to HEAD. (Internally `commit^..HEAD`, so the
+  changes _in_ the commit you just clicked are part of the diff —
+  which is what you'd expect.)
+- The result opens stacked in the native multi-diff editor: every
+  changed file in one scrollable view, syntax-highlighted, rename-
+  detected, native theme, live refresh as files change. Ideal for
+  watching agent edits land.
 
-Backed entirely by `git` + the built-in `vscode.git` API
-(`diffBetween`, `toGitUri`) and the stable `vscode.changes` command. Pure
-JS, zero dependencies, no build step.
+## The file-list sidebar
+
+A **Branch Diff** view appears in the **Source Control** panel with
+every changed file in the active comparison:
+
+- **Tree** or **flat list** layout — toggled from the view title bar
+  (button on the left), persisted in settings.
+- Compact-folder collapsing in tree mode (`a/b/c` joined into one row
+  when intermediate folders only contain one subfolder — same idea as
+  the built-in SCM "CHANGES" view).
+- Per-file `+x −y` line counts (via the git API, no shelling out) and
+  themed add/modify/delete/rename status icons.
+- **Click a file → reveals that file _inside_ the already-open
+  multi-diff editor**, scrolling to it instead of opening a separate
+  tab. Deleted files (no head-side content to reveal) open as a
+  standalone diff alongside.
+- **Change Base…** and **Refresh** actions on the view toolbar — swap
+  to a different base or re-run with the current one (HEAD is re-read
+  each time, so refresh picks up new commits).
+- The view header reflects the active comparison next to
+  "BRANCH DIFF" — e.g. *"main ↔ develop · 66 files"*.
 
 ## Relation to the native multi-diff editor
 
 VS Code already opens a native multi-diff for the working tree, staged
-changes, or a commit range selected in the Source Control Graph. Branch Diff
-adds the one entry point that isn't built in: an ad-hoc
-**current-branch vs. arbitrary branch-or-commit** comparison, from a single
-Command Palette command — without hunting through the Graph or staging
-anything. Same native editor, just reachable for the PR-style question
-"what's different between here and there".
+changes, or a commit range selected in the Source Control Graph. Branch
+Diff adds the one entry point that isn't built in: an ad-hoc
+**current-branch vs. arbitrary branch-or-commit** comparison from a
+single command — without hunting through the Graph or staging anything.
+Same native editor, with the missing PR-style sidebar bolted on.
 
-## Known gap
+## Settings
 
-Ad-hoc branch comparisons don't appear in the Source Control "Changes"
-group (it isn't working-tree state) and the multi-diff editor has no
-file-list / jump-tree like GitHub's PR sidebar — with many files you scroll
-blind. A contributed file-overview tree is the candidate fix, not yet built.
+| Setting | Default | What it does |
+| --- | --- | --- |
+| `branchDiff.viewMode` | `"tree"` | How the file list renders. `"tree"` or `"list"`. |
+| `branchDiff.compactFolders` | `true` | In tree mode, collapse chains of single-subfolder folders into one row. |
 
 ## Development
 
-Pure JS — no build. Press <kbd>F5</kbd> ("Run Extension") to launch an
-Extension Development Host with the extension loaded; edit `extension.js`
-and reload the dev host to iterate. See `RELEASING.md` in the repo for
-packaging.
+No build step, zero runtime dependencies. The only devDependency is
+`@types/vscode` for editor-level `// @ts-check` against the official
+VS Code typings (nothing compiled — the editor's bundled TS checks the
+JS in place). After `npm install`, press <kbd>F5</kbd> ("Run
+Extension") to launch an Extension Development Host with the extension
+loaded; edit `extension.js` and reload the dev host to iterate. See
+`RELEASING.md` for packaging.
 
 ## License
 
