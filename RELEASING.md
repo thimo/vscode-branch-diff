@@ -22,6 +22,18 @@ the change live in your normal editor without F5.
    `vsce package --allow-missing-repository --no-dependencies`).
 3. Install locally to verify: `code --install-extension branch-diff-<v>.vsix --force`.
 
+## Icon
+
+`media/icon.svg` is the source; `media/icon.png` is what `package.json`
+references and what `vsce` bundles. Regenerate the PNG after **any** edit
+to the SVG, or the two drift:
+
+```
+rsvg-convert -w 1024 -h 1024 media/icon.svg -o media/icon.png
+```
+
+(`brew install librsvg` if `rsvg-convert` is missing.)
+
 ## Publishing to the Marketplace (when ready)
 
 Not yet published. Before the first publish:

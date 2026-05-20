@@ -5,6 +5,7 @@
 	"version": "0.1.0",
 	"publisher": "thimo",
 	"private": true,
+	"icon": "media/icon.png",
 	"engines": {
 		"vscode": "^1.80.0"
 	},
