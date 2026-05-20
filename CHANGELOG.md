@@ -2,7 +2,7 @@
 
 All notable changes to the Branch Diff extension.
 
-## Unreleased
+## [0.2.1] — 2026-05-20
 
 - **Icon fills its canvas.** The 0.2.0 icon was drawn iOS-style with a
   100 px inset on every side, which made the Marketplace tile and
