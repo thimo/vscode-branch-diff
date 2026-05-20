@@ -2,6 +2,14 @@
 
 All notable changes to the Branch Diff extension.
 
+## Unreleased
+
+- **Icon fills its canvas.** The 0.2.0 icon was drawn iOS-style with a
+  100 px inset on every side, which made the Marketplace tile and
+  sidebar entry render visibly smaller than other extensions (VS Code
+  doesn't mask icons the way iOS does). Cropped the SVG viewBox to the
+  visible rect so the rounded square fills the canvas edge-to-edge.
+
 ## [0.2.0] — 2026-05-20
 
 First Marketplace release. Since 0.1.0 the extension grew the PR-style
